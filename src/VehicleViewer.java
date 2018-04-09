@@ -1,3 +1,7 @@
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import processing.core.PApplet;
 import processing.core.PShape;
 import processing.event.MouseEvent;
@@ -10,28 +14,29 @@ import processing.event.MouseEvent;
  * 	menu items		- change int/ext colors
  **/
 public class VehicleViewer extends PApplet{
-	// 3D Car Model
+	/** 3D Car Model **/
 	PShape carExterior;
 	PShape carInterior;
 	PShape carWindows;
 	PShape carTires;
 	
-	// Track Last Mouse Positions for Car Rotation
+	/** Track Last Mouse Positions for Car Rotation **/
 	float lastMouseX = 0;
 	float lastMouseY = 0;
 	
-	// Camera Controls
+	/** Camera Controls **/
 	float zoomLevel = 0;
 	
-	// Control Panel
+	/** Control Panel **/
 	private TintTailor controlPanel;
 	
-	// Floor Rotation
+	/** Floor Rotation **/
 	float floorRotX = 0;
 	float floorRotY = 0;
 	
+	/** CAR VISUALIZATION **/
 	public static void main(String args[]){
-		/** CAR VISUALIZATION **/
+		setLookAndFeelToNimbus();
 		PApplet.main("VehicleViewer");
 	}
 	
@@ -39,6 +44,21 @@ public class VehicleViewer extends PApplet{
 	public void settings(){
 		size(1000, 800, P3D);
 		println("Completed Settings");
+	}
+	
+	/** THEMES **/
+	public static void setLookAndFeelToNimbus() {
+		try{
+		for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+	        if ("Nimbus".equals(info.getName())) {
+	            UIManager.setLookAndFeel(info.getClassName());
+	            break;
+	        }
+		}
+		}
+		catch(Exception e){
+			System.out.println("Nimbus Problem Occurred...");
+		}
 	}
 	
 	/** RUN ONCE BEFORE DRAW **/
@@ -98,7 +118,6 @@ public class VehicleViewer extends PApplet{
 	
 	/** DRAW FLOOR **/
 	public void drawFloor(){
-		// Draw Floor
 		specular(0);
 		fill(90, 100, 99);
 		translate(0, 200, 0);
