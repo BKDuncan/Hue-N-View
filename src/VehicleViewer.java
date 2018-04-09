@@ -14,6 +14,7 @@ public class VehicleViewer extends PApplet{
 	PShape carExterior;
 	PShape carInterior;
 	PShape carWindows;
+	PShape carTires;
 	
 	// Track Last Mouse Positions for Car Rotation
 	float lastMouseX = 0;
@@ -57,8 +58,14 @@ public class VehicleViewer extends PApplet{
 		carWindows.rotateX(radians(180)); // Processing Axes are opposite
 		carWindows.rotateY(radians(90));
 		
+		carTires = loadShape("./Models/car_tires.obj");
+		carTires.scale(100); // Processing Import is 100x Smaller
+		carTires.rotateX(radians(180)); // Processing Axes are opposite
+		carTires.rotateY(radians(90));
+		
 		zoomLevel = (float) (height * 0.8662);
-		carWindows.setFill(0x7E00CC99);
+		carWindows.setFill(0x3E00CC99); // Window Transparency + Color
+		carTires.setFill(0xFF000000); 	// Make tires black
 
 		controlPanel = TintTailor.getInstance();
 	}
@@ -66,14 +73,13 @@ public class VehicleViewer extends PApplet{
 	/** RUNS MANY TIMES PER SECOND **/
 	public void draw(){
 		colorMode(HSB, 360, 100, 100);
-		background(0);
+		background(205,47,93);
 		ambientLight(127, 7, 60);
 		lightSpecular(127, 7, 60);
 		directionalLight(102, 102, 102, 0, 0, -1);
 		camera((float)0, (float)0, zoomLevel,
 		(float)0, (float)0, (float)0,
 		(float)0, (float)1, (float)0);
-		
 		
 		// Set Car Colors
 		carExterior.setFill(controlPanel.getExteriorColor());
@@ -86,13 +92,15 @@ public class VehicleViewer extends PApplet{
 		shape(carExterior);
 		shape(carInterior);
 		shape(carWindows);	
+		shape(carTires);
 		drawFloor();
 	}
 	
+	/** DRAW FLOOR **/
 	public void drawFloor(){
 		// Draw Floor
 		specular(0);
-		fill(360, 0, 50);
+		fill(90, 100, 99);
 		translate(0, 200, 0);
 		box(4000, 10, 4000);
 	}
@@ -114,10 +122,12 @@ public class VehicleViewer extends PApplet{
 			carExterior.rotateX((float) ((mouseY - lastMouseY) * -0.01));
 			carInterior.rotateX((float) ((mouseY - lastMouseY) * -0.01));
 			carWindows.rotateX((float) ((mouseY - lastMouseY) * -0.01));
+			carTires.rotateX((float) ((mouseY - lastMouseY) * -0.01));
 		} else if(mouseButton == LEFT){
 			carExterior.rotateY((float) ((mouseX - lastMouseX) * 0.01));
 			carInterior.rotateY((float) ((mouseX - lastMouseX) * 0.01));
 			carWindows.rotateY((float) ((mouseX - lastMouseX) * 0.01));
+			carTires.rotateY((float) ((mouseX - lastMouseX) * 0.01));
 		}
 		/** TO MAKE ROTATIONS SMOOTHER **/
 		lastMouseY = mouseY;
